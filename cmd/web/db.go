@@ -38,7 +38,8 @@ func connectToDB(dsn string) (*sql.DB, error) {
 			return conn, nil
 		}
 
-		if counts > 10 {
+		// retry count
+		if counts > 1 {
 			log.Println(err)
 			return nil, err
 		}

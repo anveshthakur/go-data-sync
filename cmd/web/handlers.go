@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"reflect"
 	"strings"
+
+	"github.com/jackc/pgconn"
 )
 
 type TableNames struct {
@@ -27,19 +29,35 @@ func (c *Config) ConnectToDBHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(dbConfigs)
-
 	sourceDSN := dbConfigs.Source.BuildDSN()
 	targetDSN := dbConfigs.Target.BuildDSN()
 
 	sourceConn, err := InitDB(sourceDSN)
 	if err != nil {
-		c.errorJSON(w, errors.New("Couldn't connect to source DB.."), http.StatusInternalServerError)
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			switch pgErr.Code {
+			case "28P01":
+				c.errorJSON(w, errors.New("invalid username or password"), http.StatusInternalServerError)
+			default:
+				c.errorJSON(w, errors.New("couldn't connect to the source database"), http.StatusInternalServerError)
+			}
+		}
+		return
 	}
 
 	targetConn, err := InitDB(targetDSN)
 	if err != nil {
-		c.errorJSON(w, errors.New("Couldn't connect to target DB.."), http.StatusInternalServerError)
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			switch pgErr.Code {
+			case "28P01":
+				c.errorJSON(w, errors.New("invalid username or password"), http.StatusInternalServerError)
+			default:
+				c.errorJSON(w, errors.New("couldn't connect to the target database"), http.StatusInternalServerError)
+			}
+		}
+		return
 	}
 
 	c.SourceDb = sourceConn
@@ -250,7 +268,6 @@ func compareRows(sourceRows, targetRows []map[string]interface{}, primaryKey str
 			}
 			delete(targetMap, srcRow[primaryKey])
 		} else {
-			// Row exists in source but not in target
 			insertRows = append(insertRows, srcRow)
 		}
 	}
