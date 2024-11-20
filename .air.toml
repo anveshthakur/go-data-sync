@@ -1,4 +1,4 @@
-root = "."
+root = "./cmd"
 testdata_dir = "testdata"
 tmp_dir = "tmp"
 

@@ -23,6 +23,7 @@ func (app *Config) routes() http.Handler {
 	}))
 
 	r.Post("/connect", app.ConnectToDBHandler)
+	r.Get("/tables", app.FetchDBTables)
 	r.Post("/sync", app.SynchronizeData)
 	r.Get("/health", app.CheckDbHealth)
 	r.Get("/fetch-data", app.FetchRowsForTable)

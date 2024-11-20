@@ -175,8 +175,6 @@ func (c *Config) SynchronizeData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the data is compatible or not
-	fmt.Println(source, target)
 	isCompatible, err := c.compareTableSchemas(source, target)
 
 	if err != nil {
@@ -280,16 +278,14 @@ func compareRows(sourceRows, targetRows []map[string]interface{}, primaryKey str
 }
 
 func synchronizeTables(db *sql.DB, tableName string, primaryKey string, insertRows, updateRows, deleteRows []map[string]interface{}) error {
-	// Insert missing rows
 	for _, row := range insertRows {
 		columns, values := prepareInsertQuery(row)
-		query := fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, values)
+		query := fmt.Sprintf("INSERT INTO  %s (%s) OVERRIDING SYSTEM VALUE VALUES (%s)", tableName, columns, values)
 		if _, err := db.Exec(query); err != nil {
 			return fmt.Errorf("insert failed: %w", err)
 		}
 	}
 
-	// Update differing rows
 	for _, row := range updateRows {
 		setClause, whereClause := prepareUpdateQuery(row, primaryKey)
 		query := fmt.Sprintf("UPDATE %s SET %s WHERE %s", tableName, setClause, whereClause)
@@ -298,7 +294,6 @@ func synchronizeTables(db *sql.DB, tableName string, primaryKey string, insertRo
 		}
 	}
 
-	// Delete extra rows
 	for _, row := range deleteRows {
 		whereClause := prepareDeleteQuery(row, primaryKey)
 		query := fmt.Sprintf("DELETE FROM %s WHERE %s", tableName, whereClause)
