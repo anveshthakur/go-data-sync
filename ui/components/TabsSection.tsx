@@ -7,6 +7,7 @@ import DataList from "./DataList";
 import DataTable from "./DataTable";
 import axios from "axios"
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function TabsSection() {
   const [selectedItem, setSelectedItem] = useState('');
@@ -47,6 +48,7 @@ export default function TabsSection() {
               >
                 Source
               </TabsTrigger>
+              <Link href="/"><h1 className="ml-52 cursor-pointer text-black font-semibold">Home</h1></Link>
             </TabsList>
 
             <TabsContent value="source" className="flex-grow mt-0 p-0">
