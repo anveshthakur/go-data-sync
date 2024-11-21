@@ -18,6 +18,11 @@ clean:
 
 start: run
 
+start_ui:
+	@echo "Starting UI..."
+	@cd ui && npm run dev
+	@echo "Started!"
+
 stop:
 	@echo "Stopping..."
 	@-pkill -SIGTERM -f "./${BINARY_NAME}"
