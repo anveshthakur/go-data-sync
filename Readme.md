@@ -2,11 +2,17 @@
 
 `Go-Sync-Data` is a fullstack application that can be built, run, and managed using the included Makefile and Dockerfile. This project includes both backend and UI components.
 
-## Prerequisites
+## 🚀 Features
 
-- **Go**: Ensure you have Go installed for building the backend.
-- **Node.js & npm**: Required to run the UI development server.
-- **Docker**: Required for postgres setup and dumping data into the DBs.
+- Real-time database synchronization
+- Interactive table view and data comparison
+- Docker-based PostgreSQL setup
+
+## Prerequisites
+- **Go** 
+- **Node.js & npm**
+- **Docker**
+- **Make** (for running Makefile commands)
 
 ## Screenshots
 
@@ -16,15 +22,18 @@
 ### Table View Page
 ![Table View Page](./assets/table-view.png)
 
-### UI .env
-```
-// default
-NEXT_PUBLIC_BACKEND_API=http://localhost:8080
-```
 
 ---
 
-## Docker Commands
+
+## Installation
+### 1. Clone the repository
+
+```sh
+git clone https://github.com/anveshthakur/go-data-sync
+```
+
+### 2. Database Setup 
 ```sh
 
 // create an Image from the dockerfile
@@ -35,8 +44,15 @@ docker run -d --name postgres-container -p 5432:5432 go-sync-data
 
 ```
 
+### 3.Environment Configuration
+```
+// UI env file
+NEXT_PUBLIC_BACKEND_API=http://localhost:8080
+```
 
-## Makefile Commands
+## 🎯 Usage
+
+### Using Makefile Commands
 
 The Makefile provides commands to manage the application. Below is a list of commands with descriptions.
 
@@ -77,11 +93,42 @@ To compile the `syncData` backend application:
 make start_ui
 ```
 
-## Details for connecting to source and target DB
+## 📊 Database Connection Details
+
+### Source Database
 ```
 host: localhost
 port: 5432
 username: postgres
 password: password
-dbname: sourcedb / targetdb
+dbname: sourcedb
+```
+
+### Target Database
+```
+host: localhost
+port: 5432
+username: postgres
+password: password
+dbname: targetdb
+```
+
+## File Structure
+```
+./go-data-sync
+├── assets
+├── bin
+├── cmd
+│   ├── tmp
+│   └── web
+├── scripts
+├── tmp
+└── ui
+    ├── app
+    │   └── dashboard
+    ├── components
+    │   └── ui
+    ├── hooks
+    ├── lib
+    └── tmp
 ```
