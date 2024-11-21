@@ -8,7 +8,27 @@
 - **Node.js & npm**: Required to run the UI development server.
 - **Docker**: Required for postgres setup and dumping data into the DBs.
 
+## Screenshots
+
+### HomePage
+![Home](./assets/home.png)
+
+### Table View Page
+![Table View Page](./assets/table-view.png)
+
 ---
+
+## Docker Commands
+```sh
+
+// create an Image from the dockerfile
+docker build -t go-sync-data .
+
+// run the created docker image 
+docker run -d --name postgres-container -p 5432:5432 go-sync-data
+
+```
+
 
 ## Makefile Commands
 
