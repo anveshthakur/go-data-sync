@@ -8,6 +8,7 @@ import DataTable from "./DataTable";
 import axios from "axios"
 import { toast } from "sonner";
 import Link from "next/link";
+import Constants from "@/lib/contants";
 
 export default function TabsSection() {
   const [selectedItem, setSelectedItem] = useState('');
@@ -17,7 +18,7 @@ export default function TabsSection() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get('http://localhost:8080/tables?type=source');
+        const response = await axios.get(`${Constants.BE_API}/tables?type=source`);
         setTableList(response?.data);
         setSelectedItem(response?.data[0]);
         setLoader(false);

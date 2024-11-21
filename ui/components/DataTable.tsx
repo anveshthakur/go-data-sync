@@ -13,13 +13,14 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import Constants from "@/lib/contants";
 
 export default function DataTable({ item, setLoader }: { item: any, setLoader: (loader: boolean) => void }) {
   const [tableDetails, setTableDetails] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`http://localhost:8080/fetch-data?table=${item}&type=source`);
+      const response = await axios.get(`${Constants.BE_API}/fetch-data?table=${item}&type=source`);
       setTableDetails(response?.data);
       setLoader(false);
     })();
@@ -27,7 +28,7 @@ export default function DataTable({ item, setLoader }: { item: any, setLoader: (
 
   const synchronizeData = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/sync",
+      const response = await axios.post(`${Constants.BE_API}/sync`,
         [
           { type: "source", "table": item },
           { type: "target", "table": item }

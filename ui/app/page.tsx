@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import ConnectionForm from "@/components/ConnectionForm";
 import { useState } from "react";
 import axios from "axios";
+import Constants from "@/lib/contants";
 
 export default function Home() {
   const router = useRouter();
@@ -19,7 +20,6 @@ export default function Home() {
       setTargetData(data);
     }
   };
-
   const handleConnect = async () => {
     if (!sourceData || !targetData) {
       toast.error("Please fill both source and target connection details");
@@ -27,7 +27,7 @@ export default function Home() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/connect",
+      const response = await axios.post(`${Constants.BE_API}/connect`,
         { source: sourceData, target: targetData },
         {
           headers: {
