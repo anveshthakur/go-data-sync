@@ -18,6 +18,11 @@ clean:
 
 start: run
 
+install_ui:
+	@echo "Installing UI..."
+	@cd ui && npm install
+	@echo "Installed!"
+
 start_ui:
 	@echo "Starting UI..."
 	@cd ui && npm run dev
