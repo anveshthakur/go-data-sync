@@ -81,7 +81,7 @@ make start_ui
 ```
 host: localhost
 port: 5432
-username :postgres
-password :password
+username: postgres
+password: password
 dbname: sourcedb / targetdb
 ```
