@@ -163,7 +163,6 @@ func GetTableSchema(db *sql.DB, table string) ([]ColumnSchema, error) {
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-	fmt.Println("Schema", schema)
 	return schema, nil
 }
 

@@ -209,7 +209,6 @@ func (c *Config) SynchronizeData(w http.ResponseWriter, r *http.Request) {
 	targetData, err := fetchTableData(c.TargetDB, target.Table)
 
 	insertRows, updateRows, deleteRows := compareRows(sourceData, targetData, sourcePrimaryKey)
-	fmt.Println(insertRows, updateRows, deleteRows)
 
 	err = synchronizeTables(c.TargetDB, target.Table, targetPrimaryKey, insertRows, updateRows, deleteRows)
 	if err != nil {
