@@ -76,3 +76,12 @@ To compile the `syncData` backend application:
 ```bash
 make start_ui
 ```
+
+## Details for connecting to source and target DB
+```
+host: localhost
+port: 5432
+username :postgres
+password :password
+dbname: sourcedb / targetdb
+```
