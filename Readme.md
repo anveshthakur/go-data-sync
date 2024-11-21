@@ -16,6 +16,12 @@
 ### Table View Page
 ![Table View Page](./assets/table-view.png)
 
+### UI .env
+```
+// default
+NEXT_PUBLIC_BACKEND_API=http://localhost:8080
+```
+
 ---
 
 ## Docker Commands
