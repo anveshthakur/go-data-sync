@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ConnectionForm from "@/components/ConnectionForm";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Constants from "@/lib/contants";
 
 export default function Home() {
@@ -43,7 +43,11 @@ export default function Home() {
       toast.success("Successfully connected!");
       router.push("/dashboard");
     } catch (error) {
-      toast.error("Failed to connect. Please try again.");
+      if (error instanceof AxiosError) {
+        error.response?.data?.message && toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to connect. Please try again.");
+      }
     }
   };
 

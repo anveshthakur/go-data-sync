@@ -15,16 +15,16 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Constants from "@/lib/contants";
 
-export default function DataTable({ item, setLoader }: { item: any, setLoader: (loader: boolean) => void }) {
+export default function DataTable({ item, type, setLoader }: { item: any, type: string, setLoader: (loader: boolean) => void }) {
   const [tableDetails, setTableDetails] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`${Constants.BE_API}/fetch-data?table=${item}&type=source`);
+      const response = await axios.get(`${Constants.BE_API}/fetch-data?table=${item}&type=${type}`);
       setTableDetails(response?.data);
       setLoader(false);
     })();
-  }, [item]);
+  }, [item, type]);
 
   const synchronizeData = async () => {
     try {

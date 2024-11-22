@@ -12,6 +12,7 @@ import Constants from "@/lib/contants";
 
 export default function TabsSection() {
   const [selectedItem, setSelectedItem] = useState('');
+  const [type, setType] = useState('');
   const [loader, setLoader] = useState(true);
   const [tableList, setTableList] = useState([]);
 
@@ -21,6 +22,7 @@ export default function TabsSection() {
         const response = await axios.get(`${Constants.BE_API}/tables?type=source`);
         setTableList(response?.data);
         setSelectedItem(response?.data[0]);
+        setType("source");
         setLoader(false);
       } catch (error) {
         setLoader(false);
@@ -29,8 +31,16 @@ export default function TabsSection() {
     })();
   }, []);
 
+
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
+  };
+
+  const handleTabClick = async (type: string) => {
+    const response = await axios.get(`${Constants.BE_API}/tables?type=${type}`);
+    setType(type);
+    setTableList(response?.data);
+    setSelectedItem(response?.data[0]);
   };
 
   return (
@@ -46,12 +56,19 @@ export default function TabsSection() {
               <TabsTrigger
                 value="source"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                onClick={() => handleTabClick("source")}
               >
                 Source
               </TabsTrigger>
-              <Link href="/"><h1 className="ml-52 cursor-pointer text-black font-semibold">Home</h1></Link>
+              <TabsTrigger
+                value="target"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                onClick={() => handleTabClick("target")}
+              >
+                Target
+              </TabsTrigger>
+              <Link href="/"><h1 className="ml-28 cursor-pointer text-black font-semibold">Home</h1></Link>
             </TabsList>
-
             <TabsContent value="source" className="flex-grow mt-0 p-0">
               <DataList
                 items={tableList}
@@ -59,11 +76,17 @@ export default function TabsSection() {
                 selectedItem={selectedItem}
               />
             </TabsContent>
-
+            <TabsContent value="target" className="flex-grow mt-0 p-0">
+              <DataList
+                items={tableList}
+                onItemClick={handleItemClick}
+                selectedItem={selectedItem}
+              />
+            </TabsContent>
           </Tabs>
 
           {selectedItem && (
-            <DataTable item={selectedItem} setLoader={setLoader} />
+            <DataTable item={selectedItem} type={type} setLoader={setLoader} />
           )}
         </div>
       )

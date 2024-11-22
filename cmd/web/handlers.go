@@ -38,9 +38,9 @@ func (c *Config) ConnectToDBHandler(w http.ResponseWriter, r *http.Request) {
 		if errors.As(err, &pgErr) {
 			switch pgErr.Code {
 			case "28P01":
-				c.errorJSON(w, errors.New("invalid username or password"), http.StatusInternalServerError)
+				c.errorJSON(w, errors.New("Invalid username or password"), http.StatusUnauthorized)
 			default:
-				c.errorJSON(w, errors.New("couldn't connect to the source database"), http.StatusInternalServerError)
+				c.errorJSON(w, errors.New("Couldn't connect to the source database"), http.StatusInternalServerError)
 			}
 		}
 		return
